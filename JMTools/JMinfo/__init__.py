@@ -4,6 +4,9 @@ from gsuid_core.logger import logger
 from gsuid_core.models import Event
 from gsuid_core.data_store import get_res_path
 from gsuid_core.segment import MessageSegment
+from ..JMConfig import JMConfig
+from ..utils.nsfw import DetectImage
+from jmcomic import JmcomicText
 
 from .. import JMClient
 
@@ -27,21 +30,33 @@ async def GetJMInfo(bot: Bot,ev: Event):
     title = AlbumDetail.title
     img = MessageSegment.image(str(file_path))
 
-    msg = ["标题：" + title]
+    # 图片 NSFW 检测
+    NSFWSwitch = JMConfig.get_config("NSFWSwitch").data
+    if not DetectImage(str(file_path))[0] and NSFWSwitch:
+        url = JmcomicText.get_album_cover_url(id)
+        img = f"[图片尺度过大，请点击查看]({url})"
 
+    # 文本合并
+    msg_text = ["标题：" + title]
     if desc:
-        msg.append("简介: " + str(desc).strip())
-    msg.append("\n")
+        msg_text.append("简介: " + str(desc).strip())
+    msg_text.append("\n")
     if actors:
-        msg.append("作者: " + ", ".join(actors))
-    msg.append("\n")
+        msg_text.append("作者: " + ", ".join(actors))
+    msg_text.append("\n")
     if tags:
-        msg.append("TAGS: " + ", ".join(f"#{tag}" for tag in tags))
-    msg.append("\n")
-    if img:
-        msg.append(img)
+        msg_text.append("TAGS: " + ", ".join(f"#{tag}" for tag in tags))
+    msg_text = "".join(msg_text)
 
-    await bot.send(msg)
+    # 发送逻辑
+    if JMConfig.get_config("InfoSendType").data == "合并转发":
+        send_msg = MessageSegment.node([msg_text] + [img])
+        await bot.send([send_msg])
+    elif JMConfig.get_config("InfoSendType").data == "直接发送":
+        send_msg = [msg_text,"\n",img]
+        await bot.send(send_msg)
+
+    
 
 # 检测到纯数字
 @SV_JMInfo.on_message()

@@ -5,7 +5,10 @@ description = "JM相关工具"
 authors = [
     {name = "sssysy"},
 ]
-dependencies = ["jmcomic"]
+dependencies = [
+    "jmcomic",
+    "nsfwpy"
+    ]
 requires-python = ">=3.11"
 readme = "README.md"
 
