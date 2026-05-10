@@ -8,10 +8,6 @@ Plugins(
     name="JMTools",
 )
 
-@on_core_start
-async def _LoadJMClient():
-    global JMClient
-    JMClient = jmcomic.JmOption.default().new_jm_client()
-    logger.info("[JMTools] 启动JM客户端成功")
-
-
+global JMClient
+JMClient = jmcomic.JmOption.default().new_jm_client()
+logger.info("[JMTools] 启动JM客户端成功")
