@@ -1,0 +1,14 @@
+[project]
+name = "JMTools"
+version = "0.1.0"
+description = "JM相关工具"
+authors = [
+    {name = "sssysy"},
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+
+
+[tool.pdm]
+distribution = false
