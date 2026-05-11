@@ -7,7 +7,8 @@ authors = [
 ]
 dependencies = [
     "jmcomic",
-    "nsfwpy"
+    "nsfwpy",
+    "httpx"
     ]
 requires-python = ">=3.11"
 readme = "README.md"
