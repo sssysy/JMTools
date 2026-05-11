@@ -7,11 +7,12 @@ from gsuid_core.utils.plugins_config.models import (
     GsIntConfig
 )
 from gsuid_core.utils.plugins_config.gs_config import StringConfig
+from gsuid_core.logger import logger
 from gsuid_core.data_store import get_res_path
 
 import os
 
-CONFIG_PATH = get_res_path() / 'JMTools' / 'config.json'
+CONFIG_PATH = get_res_path() / 'JMTools'
 
 CONFIG_DEFAULT: dict[str, GSC] = {
     "InfoSendType": GsStrConfig(
@@ -78,6 +79,5 @@ CONFIG_DEFAULT: dict[str, GSC] = {
         False,
     ),
 }
-config_dir = os.path.dirname(CONFIG_PATH)
-os.makedirs(config_dir, exist_ok=True)
-JMConfig = StringConfig("JMConfig",CONFIG_PATH,CONFIG_DEFAULT)
+CONFIG_PATH.mkdir(parents=True, exist_ok=True)
+JMConfig = StringConfig("JMConfig",CONFIG_PATH / 'config.json',CONFIG_DEFAULT)
