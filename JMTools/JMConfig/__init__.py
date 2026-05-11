@@ -76,5 +76,5 @@ CONFIG_DEFAULT: dict[str, GSC] = {
         False,
     ),
 }
-
+CONFIG_PATH.mkdir(parents=True, exist_ok=True)
 JMConfig = StringConfig("JMConfig",CONFIG_PATH,CONFIG_DEFAULT)
