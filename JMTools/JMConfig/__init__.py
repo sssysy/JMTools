@@ -9,6 +9,8 @@ from gsuid_core.utils.plugins_config.models import (
 from gsuid_core.utils.plugins_config.gs_config import StringConfig
 from gsuid_core.data_store import get_res_path
 
+import os
+
 CONFIG_PATH = get_res_path() / 'JMTools' / 'config.json'
 
 CONFIG_DEFAULT: dict[str, GSC] = {
@@ -76,5 +78,6 @@ CONFIG_DEFAULT: dict[str, GSC] = {
         False,
     ),
 }
-CONFIG_PATH.mkdir(parents=True, exist_ok=True)
+config_dir = os.path.dirname(CONFIG_PATH)
+os.makedirs(config_dir, exist_ok=True)
 JMConfig = StringConfig("JMConfig",CONFIG_PATH,CONFIG_DEFAULT)
